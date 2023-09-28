@@ -13,13 +13,12 @@ public class SecurityBl {
         this.userDao = userDao;
     }
 
-    public User login(String user, String hash){
-        User=user.findByuserAndpassword_hash
+    public User login(String username, String password_hash){
+        User user = userDao.findByUsernameAndPasswordHash(username, password_hash);
         if(user==null){
-            throw new RuntimeException("THe user doesn't exist");
-
+            throw new RuntimeException("invalid authentication");
         }
-        user.setpasswordhash(null);
+        user.setPasswordHash(null);
         return user;
     }
 

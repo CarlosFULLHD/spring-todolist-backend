@@ -14,13 +14,13 @@ class SecurityBlTest {
 
     @Test
     void testLOgin(){
-        User user =securityBl.login("Bruno","passwordhash1");
+        User user =securityBl.login("usuario1","password123");
         assertNotNull(user, "Autenticacion incorrecta");
     }
     @Test
     void ErrorLOgin(){
         try{
-            securityBl.login("Bruno","passwordhash1");
+            securityBl.login("usuario1","password123");
         }catch (RuntimeException ex){
             assertEquals("Autenticacion incorrecta",
                     ex.getMessage());

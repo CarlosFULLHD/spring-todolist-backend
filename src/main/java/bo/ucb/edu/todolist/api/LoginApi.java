@@ -35,7 +35,7 @@ public class LoginApi {
 
             user = securityBl.login(loginRequestDto.getUser(),
                     loginRequestDto.getPassword_hash());
-            logger.info(loginRequestDto.getUser(),loginRequestDto.getPassword_hash());
+            logger.info("Autenticado el usuario: "+loginRequestDto.getUser(),loginRequestDto.getPassword_hash());
         }catch (RuntimeException ex){
             //Devolver un error con codigo y el mensaje
             logger.warn(loginRequestDto.getUser(),loginRequestDto.getPassword_hash());

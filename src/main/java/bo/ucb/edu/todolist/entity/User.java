@@ -1,19 +1,25 @@
 package bo.ucb.edu.todolist.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+
+import java.util.Set;
 @Entity
 @Table(name = "users")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "username", unique = true, nullable = false, length = 255)
+    @NotBlank
+    @Size(max = 255)
+    @Column(unique = true)
     private String username;
 
-    @Column(name = "password_hash", nullable = false, length = 255)
+    @NotBlank
+    @Size(max = 255)
+    @Column(name = "password_hash")
     private String passwordHash;
 
     // Getters and setters

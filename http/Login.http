@@ -1,3 +1,8 @@
+# Se hicieron todas las verificaciones de la API con postman porque no puedo correr
+# Los http(Creo que se puede en IntellijIDEA ULTIMATE que me daran en github student pack)
+
+# LOGIN API
+# Verificacion de login POST
 POST http://localhost:8080/api/v1/login
 Accept: application/json
 Content
@@ -7,7 +12,7 @@ Content
     "password_hash" : "passwordhash1"
 }
 
-en local storage, lo mandas como cabecera y "no importa como resolvamos esto"
+# en local storage, lo mandas como cabecera y "no importa como resolvamos esto"
 GET http://localhost:8080/api/v1/login/1
 Accept: application/json
 Authorization: 1

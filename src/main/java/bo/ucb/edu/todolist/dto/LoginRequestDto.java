@@ -1,6 +1,9 @@
 package bo.ucb.edu.todolist.dto;
 
 public class LoginRequestDto {
+    //IMPORTANTISIMO, al enviar la api ESTOS CAMPOS seran los que se recibiran
+    //POr lo que se deben mandar con estos nombres a la API
+
     private String user;
     private String password_hash;
 

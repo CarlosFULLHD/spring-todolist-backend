@@ -6,12 +6,15 @@ import bo.ucb.edu.todolist.dto.ResponseDto;
 import bo.ucb.edu.todolist.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 @RestController
 @RequestMapping("api/v1")
 public class LoginApi {
+    private final Logger logger = LoggerFactory.getLogger(SecurityBl.class);
     @Autowired
     SecurityBl securityBl;
     @Autowired
@@ -25,16 +28,21 @@ public class LoginApi {
         return new ResponseDto(new ArrayList<>()); // Esto crea una lista vacía de tareas
     }*/
 
-    @PostMapping("api/v1/login")
+    @PostMapping("/login")
     public ResponseDto login(@RequestBody LoginRequestDto loginRequestDto){
         User user;
         try {
-            user = securityBl.login(loginRequestDto.getUser(),loginRequestDto.getPassword_hash());
 
+            user = securityBl.login(loginRequestDto.getUser(),
+                    loginRequestDto.getPassword_hash());
+            logger.info(loginRequestDto.getUser(),loginRequestDto.getPassword_hash());
         }catch (RuntimeException ex){
+            //Devolver un error con codigo y el mensaje
+            logger.warn(loginRequestDto.getUser(),loginRequestDto.getPassword_hash());
             return new ResponseDto("TASK-1000", ex.getMessage());
 
         }
+        //Cuando todo salga bien
         return new ResponseDto(user);
 
     }

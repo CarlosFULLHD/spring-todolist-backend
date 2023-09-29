@@ -22,7 +22,7 @@ public class SecurityBl {
     public User login(String username, String passwordHash) {
         logger.info(username,passwordHash);
         User user = userDao.findByUsernameAndPasswordHash(username, passwordHash);
-
+        //Si el usuario no existe
         if(user ==null){
             logger.warn("Autenticación incorrecta para el usuario: {}", username);
             throw new RuntimeException("Autenticacion incorrecta null");

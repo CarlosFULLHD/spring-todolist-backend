@@ -97,3 +97,9 @@ Nota: Una vez hecho el paso 1, para volver a correr el contenedor de docker(que 
 ```
 docker start todolistdb
 ```
+---
+### Mejoras a futuro:
+
+- Añadir DTO para todo lo necesario en Request, Response
+- Añadir Excepciones personalizadas en cada tipo de errores segun excel
+- 

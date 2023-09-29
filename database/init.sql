@@ -18,13 +18,8 @@ CREATE TABLE tasks (
     task_name VARCHAR(255) NOT NULL,
     due_date TIMESTAMP NOT NULL,
     status BOOLEAN NOT NULL DEFAULT FALSE,
+    completion_time TIMESTAMP,
     user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
     label_id INT REFERENCES labels(label_id) ON DELETE SET NULL
 );
 
--- Tabla para tareas completadas
-CREATE TABLE completed_tasks (
-    completed_task_id SERIAL PRIMARY KEY,
-    task_id INT REFERENCES tasks(task_id) ON DELETE CASCADE,
-    completion_time TIMESTAMP NOT NULL
-);

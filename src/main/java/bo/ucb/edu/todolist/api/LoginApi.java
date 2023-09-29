@@ -12,6 +12,7 @@ import java.util.*;
 @RestController
 @RequestMapping("api/v1")
 public class LoginApi {
+    @Autowired
     SecurityBl securityBl;
     @Autowired
     public LoginApi(SecurityBl securityBl) {

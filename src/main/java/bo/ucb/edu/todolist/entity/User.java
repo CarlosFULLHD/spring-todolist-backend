@@ -45,6 +45,11 @@ public class User {
     public User() {
     }
 
+    public User(Long userId, String username, String passwordHash) {
+        this.userId = userId;
+        this.username = username;
+        this.passwordHash = passwordHash;
+    }
 
     @Override
     public String toString() {

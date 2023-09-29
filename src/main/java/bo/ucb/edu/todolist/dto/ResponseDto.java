@@ -8,6 +8,7 @@ public class ResponseDto {
     //Solo usamos 2 constructores para que el programador ya no haga lo que le de la gana
 
     //Constructor para cuando se obtenga una respuesta correcta
+
     public ResponseDto(Object result) {
         this.code = "Task-0000";
         this.result=result;

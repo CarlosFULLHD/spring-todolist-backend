@@ -11,23 +11,17 @@ import java.util.Optional;
 public class SecurityBl {
     private UserDao userDao;
 
-    @Autowired
     public SecurityBl(UserDao userDao) {
         this.userDao = userDao;
     }
 
-    public User login(String username, String password) {
-        Optional<User> userOptional = userDao.findByUsernameAndPasswordHash(username);
-
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-
-            // Verificar si la contraseña coincide
-            if (user.getPasswordHash().equals(password)) {
-                return user; // Devolver el usuario en caso de autenticación exitosa
-            }
+    public User login(String username, String passwordHash) {
+        User user = userDao.findByUsernameAndPasswordHash(username, passwordHash);
+        if( user ==null){
+            throw new RuntimeException("Autenticacion incorrecta");
         }
+        return user;
 
-        return null; // Devolver null si la autenticación falla o el usuario no existe
+
     }
 }

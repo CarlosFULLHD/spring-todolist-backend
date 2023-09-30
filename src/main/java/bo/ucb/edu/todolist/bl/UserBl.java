@@ -42,17 +42,19 @@ public class UserBl {
     // Método para editar la contraseña de un usuario
     @Transactional
     public void editPassword(Long userId, String username, String passwordHash) {
-        // Buscar al usuario por su ID
-        User user = userDao.findById(userId);
+            // Buscar al usuario por su ID
+            User user = userDao.findByuserId(userId);
+            if (user == null) {
+                logger.warn("El usuario no existe: {}", username);
+                throw new IllegalArgumentException("El usuario no existe");
+            }
 
-        //Si el usuario no existe
-        if(user ==null){
-            logger.warn("El usuario no existe: {}", username);
-            throw new RuntimeException("El usuario no existe");
-        }
-        // Actualizar la contraseña en el objeto usuario
-        user.setPasswordHash(passwordHash);
-        // Guardar los cambios en la base de datos
-        userDao.save(user);
+            // Actualizar la contraseña en el objeto usuario
+            user.setPasswordHash(passwordHash);
+
+            // Guardar los cambios en la base de datos
+            userDao.save(user);
+
     }
+
 }

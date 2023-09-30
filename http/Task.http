@@ -1,0 +1,42 @@
+# Tasks:
+# Obtener todos los tasks
+GET http://localhost:8080/api/v1/tasks/
+
+# Crear nueva task
+POST http://localhost:8080/api/v1/tasks/
+Accept: application/json
+Content-Type: application/json
+
+{
+  "taskName": "Tarea NUEVA",
+  "dueDate": "2023-09-30T00:00:00Z",
+  "status": false,
+  "completionTime": null,
+  "user": {
+    "userId": 1,  // El ID del usuario al que deseas asignar la tarea
+    "username": "usuario1",  // Nombre de usuario del usuario
+    "passwordHash": "password123"  // Contraseña del usuario
+  }
+
+
+# Editar label mandando id de task(ejemplo con id=1)
+PUT http://localhost:8080/api/v1/tasks/1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "taskName": "Tarea EDITADA",
+  "dueDate": "2023-09-30T00:00:00Z",
+  "status": false,
+  "completionTime": null,
+  "user": {
+    "userId": 1,  // El ID del usuario al que deseas asignar la tarea
+    "username": "usuario1",  // Nombre de usuario del usuario
+    "passwordHash": "password123"  // Contraseña del usuario
+  }
+
+
+# Eliminar label por id(ejemplo=1)
+DELETE http://localhost:8080/api/v1/tasks/1
+
+

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Table(name = "tasks")
@@ -106,4 +107,6 @@ public class Task {
                 ", user=" + user +
                 '}';
     }
+
+
 }

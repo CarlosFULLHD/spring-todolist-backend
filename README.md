@@ -35,6 +35,9 @@ Tambien puedes instalarla desde postgres en local si es lo que deseas.
 ```
 mvn spring-boot:run
 ```
+Errores comunes:
+
+Algun servicio esta corriendo en el puerto 8080, asi que mata ese servicio o usa otro puerto
 
 ## Instalación de la Base de Datos
 

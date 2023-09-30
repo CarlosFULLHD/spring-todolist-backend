@@ -1,16 +1,42 @@
 # Se hicieron todas las verificaciones de la API con postman porque no puedo correr
 # Los http(Creo que se puede en IntellijIDEA ULTIMATE que me daran en github student pack)
 
+
+
+# Users:
 # LOGIN API
-# Verificacion de login POST
+# Iniciar sesion
 POST http://localhost:8080/api/v1/login
 Accept: application/json
 Content
 
 {
-    "username" : "Bruno",
-    "password_hash" : "passwordhash1"
+    "username" : "usuario1",
+    "password_hash" : "password123"
 }
+# User API
+# Crear nuevo usuario
+POST http://localhost:8080/api/v1/users/
+Accept: application/json
+Content
+
+{
+    "user" : "newuser",
+    "password_hash" : "newpassword"
+}
+
+# Editar contraseña mandando id de usuario(ejemplo con id=1)
+PUT http://localhost:8080/api/v1/users/1
+{
+    "password_hash" : "pwd123456"
+}
+
+# Tasks
+
+
+
+
+
 
 # en local storage, lo mandas como cabecera y "no importa como resolvamos esto"
 GET http://localhost:8080/api/v1/login/1

@@ -1,5 +1,7 @@
 package bo.ucb.edu.todolist.dto;
 
+import bo.ucb.edu.todolist.entity.Task;
+
 public class ResponseDto {
     private String code;
     private Object result;
@@ -21,6 +23,12 @@ public class ResponseDto {
         this.code = code;
         this.message = message;
     }
+
+    public ResponseDto(String code, Task updatedTask) {
+        this.code = code;
+
+    }
+
     public String getCode() {
         return code;
     }

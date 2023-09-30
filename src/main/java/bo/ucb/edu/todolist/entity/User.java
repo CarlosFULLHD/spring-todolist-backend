@@ -1,9 +1,13 @@
 package bo.ucb.edu.todolist.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
+import java.util.HashSet;
 import java.util.Set;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -21,6 +25,12 @@ public class User {
     @Size(max = 255)
     @Column(name = "password_hash")
     private String passwordHash;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore // Ignorar la relación en esta dirección
+    private Set<Task> tasks = new HashSet<>();
+
+
 
     // Getters and setters
 
@@ -48,13 +58,22 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
+    }
+
     public User() {
     }
 
-    public User(Long userId, String username, String passwordHash) {
+    public User(Long userId, String username, String passwordHash, Set<Task> tasks) {
         this.userId = userId;
         this.username = username;
         this.passwordHash = passwordHash;
+        this.tasks = tasks;
     }
 
     @Override

@@ -1,0 +1,41 @@
+# Tasks:
+# Obtener todos los task-labels
+GET http://localhost:8080/api/v1/task-labels/
+
+# Crear nueva task-labels
+POST http://localhost:8080/api/v1/task-labels/
+Accept: application/json
+Content-Type: application/json
+
+{
+
+  }
+
+
+# Editar task-labels mandando id(ejemplo con id=1)
+PUT http://localhost:8080/api/v1/task-labels/1
+Accept: application/json
+Content-Type: application/json
+
+{
+    "task": {
+        "taskId": 5,  // ID de la tarea existente
+        "taskName": "Nueva tarea",
+        "dueDate": "2023-10-15T12:00:00Z", // Nueva fecha de vencimiento
+        "status": true, // Nuevo estado de la tarea (completada)
+        "completionTime": "2023-10-15T13:30:00Z", // Nueva hora de finalización
+        "user": {
+            "userId": 1 // ID del usuario existente
+        }
+    },
+    "label": {
+        "labelId": 2, // ID de la etiqueta existente
+        "labelName": "Nueva etiqueta"
+    }
+}
+
+
+# Eliminar label por id(ejemplo=1)
+DELETE http://localhost:8080/api/v1/tasks/1
+
+

@@ -60,4 +60,22 @@ public class TaskApi {
             return new ResponseDto("ERROR", ex.getMessage());
         }
     }
+    // Cambiar el estado de una tarea a true
+    @PutMapping("/complete/{taskId}")
+    public ResponseDto completeTask(@PathVariable Long taskId) {
+        try {
+            Task task = taskBl.getTaskById(taskId); // Obtener la tarea por su ID
+            if (task == null) {
+                return new ResponseDto("ERROR", "La tarea no existe.");
+            }
+
+            task.setStatus(true); // Cambiar el estado a true
+            Task updatedTask = taskBl.editTask(task); // Guardar la tarea actualizada
+
+            return new ResponseDto("Tarea completada con éxito.", updatedTask);
+        } catch (Exception ex) {
+            return new ResponseDto("ERROR", ex.getMessage());
+        }
+    }
+
 }

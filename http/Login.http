@@ -11,8 +11,8 @@ Accept: application/json
 Content
 
 {
-    "username" : "usuario1",
-    "password_hash" : "password123"
+    "user": "usuario1",
+    "password_hash": "password123"
 }
 # User API
 # Crear nuevo usuario
@@ -25,20 +25,8 @@ Content
     "password_hash" : "newpassword"
 }
 
-# Editar contraseña mandando id de usuario(ejemplo con id=1)
-PUT http://localhost:8080/api/v1/users/1
+# Editar contraseña mandando id de usuario(ejemplo con id=2)
+PUT http://localhost:8080/api/v1/users/2
 {
-    "password_hash" : "pwd123456"
+    "password_hash" : "newpass"
 }
-
-# Tasks
-
-
-
-
-
-
-# en local storage, lo mandas como cabecera y "no importa como resolvamos esto"
-GET http://localhost:8080/api/v1/login/1
-Accept: application/json
-Authorization: 1

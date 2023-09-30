@@ -8,7 +8,7 @@ Accept: application/json
 Content
 
 {
-    "labelName" : "Home"
+    "labelName" : "NUEVO LABEL"
 }
 
 # Editar label mandando id de label(ejemplo con id=1)

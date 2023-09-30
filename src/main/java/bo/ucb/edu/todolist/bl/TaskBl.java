@@ -118,4 +118,8 @@ public class TaskBl {
         taskDao.deleteById(taskId);
         logger.info("Tarea eliminada con éxito.");
     }
+
+    public Task getTaskById(Long taskId) {
+        return taskDao.findById(taskId).orElse(null);
+    }
 }

@@ -17,6 +17,7 @@ Content-Type: application/json
     "username": "usuario1",  // Nombre de usuario del usuario
     "passwordHash": "password123"  // Contraseña del usuario
   }
+  }
 
 
 # Editar label tarea id de task(ejemplo con id=1)
@@ -34,7 +35,7 @@ Content-Type: application/json
     "username": "usuario1",  // Nombre de usuario del usuario
     "passwordHash": "password123"  // Contraseña del usuario
   }
-
+}
 
 # Eliminar tarea por id(ejemplo=1)
 DELETE http://localhost:8080/api/v1/tasks/1

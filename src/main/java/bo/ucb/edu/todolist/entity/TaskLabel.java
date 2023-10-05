@@ -3,30 +3,33 @@ package bo.ucb.edu.todolist.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name = "task_labels")
 public class TaskLabel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @Column(name = "task_label_id")
+    private Long taskLabelId;
 
     @ManyToOne
-    @JoinColumn(name = "task_id", referencedColumnName = "task_id")
+    @JoinColumn(name = "task_id")
     private Task task;
 
-
     @ManyToOne
-    @JoinColumn(name = "label_id", referencedColumnName = "label_id")
+    @JoinColumn(name = "label_id")
     private Label label;
 
+    // Getters and setters
 
-    public Long getId() {
-        return id;
+
+    public Long getTaskLabelId() {
+        return taskLabelId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setTaskLabelId(Long taskLabelId) {
+        this.taskLabelId = taskLabelId;
     }
 
     public Task getTask() {
@@ -48,8 +51,8 @@ public class TaskLabel {
     public TaskLabel() {
     }
 
-    public TaskLabel(Long id, Task task, Label label) {
-        this.id = id;
+    public TaskLabel(Long taskLabelId, Task task, Label label) {
+        this.taskLabelId = taskLabelId;
         this.task = task;
         this.label = label;
     }
@@ -57,9 +60,10 @@ public class TaskLabel {
     @Override
     public String toString() {
         return "TaskLabel{" +
-                "id=" + id +
+                "taskLabelId=" + taskLabelId +
                 ", task=" + task +
                 ", label=" + label +
                 '}';
     }
 }
+

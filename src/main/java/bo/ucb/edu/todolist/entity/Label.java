@@ -6,17 +6,22 @@ import jakarta.validation.constraints.*;
 @Entity
 @Table(name = "labels")
 public class Label {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "label_id")
     private Long labelId;
 
     @NotBlank
-    @Size(max = 50)
-    @Column(name = "label_name")
+    @Column(name = "label_name", nullable = false)
     private String labelName;
 
-    // Getters and setters
+    @Column(name = "label_color")
+    private String labelColor;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Long getLabelId() {
         return labelId;
@@ -34,12 +39,30 @@ public class Label {
         this.labelName = labelName;
     }
 
+    public String getLabelColor() {
+        return labelColor;
+    }
+
+    public void setLabelColor(String labelColor) {
+        this.labelColor = labelColor;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Label() {
     }
 
-    public Label(Long labelId, String labelName) {
+    public Label(Long labelId, String labelName, String labelColor, User user) {
         this.labelId = labelId;
         this.labelName = labelName;
+        this.labelColor = labelColor;
+        this.user = user;
     }
 
     @Override
@@ -47,6 +70,8 @@ public class Label {
         return "Label{" +
                 "labelId=" + labelId +
                 ", labelName='" + labelName + '\'' +
+                ", labelColor='" + labelColor + '\'' +
+                ", user=" + user +
                 '}';
     }
 }

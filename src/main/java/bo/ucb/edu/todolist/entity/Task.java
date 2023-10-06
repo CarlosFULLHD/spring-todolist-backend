@@ -3,38 +3,39 @@ package bo.ucb.edu.todolist.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
-import java.sql.Timestamp;
-import java.util.List;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tasks")
 public class Task {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "task_id")
     private Long taskId;
 
-    @NotBlank
-    @Size(max = 255)
-    @Column(name = "task_name")
+    @NotBlank(message = "El nombre de la tarea no puede estar en blanco")
+    @Column(name = "task_name", length = 255, nullable = false)
     private String taskName;
 
-    @NotNull
-    @Column(name = "due_date")
-    private java.sql.Timestamp dueDate;
+    @NotNull(message = "La fecha de vencimiento no puede ser nula")
+    @Column(name = "due_date", nullable = false)
+    private LocalDateTime dueDate;
 
-    @NotNull
-    @Column(name = "status")
-    private Boolean status = false;
+    @NotNull(message = "El estado no puede ser nulo")
+    @Column(name = "status", nullable = false)
+    private Boolean status;
 
     @Column(name = "completion_time")
-    private java.sql.Timestamp completionTime;
+    private LocalDateTime completionTime;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // Getters and setters
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "label_id")
+    private Label label;
 
     public Long getTaskId() {
         return taskId;
@@ -52,11 +53,11 @@ public class Task {
         this.taskName = taskName;
     }
 
-    public Timestamp getDueDate() {
+    public LocalDateTime getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Timestamp dueDate) {
+    public void setDueDate(LocalDateTime dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -68,11 +69,11 @@ public class Task {
         this.status = status;
     }
 
-    public Timestamp getCompletionTime() {
+    public LocalDateTime getCompletionTime() {
         return completionTime;
     }
 
-    public void setCompletionTime(Timestamp completionTime) {
+    public void setCompletionTime(LocalDateTime completionTime) {
         this.completionTime = completionTime;
     }
 
@@ -84,16 +85,25 @@ public class Task {
         this.user = user;
     }
 
+    public Label getLabel() {
+        return label;
+    }
+
+    public void setLabel(Label label) {
+        this.label = label;
+    }
+
     public Task() {
     }
 
-    public Task(Long taskId, String taskName, Timestamp dueDate, Boolean status, Timestamp completionTime, User user) {
+    public Task(Long taskId, String taskName, LocalDateTime dueDate, Boolean status, LocalDateTime completionTime, User user, Label label) {
         this.taskId = taskId;
         this.taskName = taskName;
         this.dueDate = dueDate;
         this.status = status;
         this.completionTime = completionTime;
         this.user = user;
+        this.label = label;
     }
 
     @Override
@@ -105,8 +115,10 @@ public class Task {
                 ", status=" + status +
                 ", completionTime=" + completionTime +
                 ", user=" + user +
+                ", label=" + label +
                 '}';
     }
-
-
 }
+
+
+

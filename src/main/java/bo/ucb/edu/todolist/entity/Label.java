@@ -19,7 +19,7 @@ public class Label {
     @Column(name = "label_color")
     private String labelColor;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

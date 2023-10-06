@@ -30,6 +30,8 @@ public class User {
     @JsonIgnore // Ignorar la relación en esta dirección
     private Set<Task> tasks = new HashSet<>();
 
+    public User(Long userId) {
+    }
 
 
     // Getters and setters

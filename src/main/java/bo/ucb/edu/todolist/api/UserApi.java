@@ -24,25 +24,22 @@ public class UserApi {
         this.userBl = userBl;
     }
 
+    //Añadir nuevo usuario
     @PostMapping("/")
     public ResponseDto login(@RequestBody LoginRequestDto loginRequestDto){
-        User user;
         try {
-            user = userBl.addUser(loginRequestDto.getUser(),
-                    loginRequestDto.getPassword_hash());
-            logger.info("Añadiendo usuario: "+loginRequestDto.getUser(),loginRequestDto.getPassword_hash());
+            User user = userBl.addUser(loginRequestDto.getUser(), loginRequestDto.getPassword_hash());
+            logger.info("Añadiendo usuario: " + loginRequestDto.getUser());
         }catch (RuntimeException ex){
             //Devolver un error con codigo y el mensaje
             logger.warn(loginRequestDto.getUser(),loginRequestDto.getPassword_hash());
-            return new ResponseDto("TASK-1000", ex.getMessage());
-
+            return new ResponseDto("TASK-1001", "Error al agregar usuario");
         }
         //Cuando todo salga bien
-        return new ResponseDto(user);
-
+        return new ResponseDto("TASK-1000", "Usuario agregado correctamente");
     }
 
-
+//Editar usuario existente por ID
     @PutMapping("/{userId}")
     public ResponseDto editPassword(@PathVariable Long userId, @RequestBody LoginRequestDto loginRequestDto) {
         try {
@@ -50,10 +47,11 @@ public class UserApi {
             logger.info("Contraseña actualizada con éxito para el usuario: " + userId);
             return new ResponseDto("Contraseña actualizada con éxito.");
         } catch (RuntimeException ex) {
-            logger.warn("Error al actualizar contraseña: " + ex.getMessage());
+            logger.warn("Error al actualizar contraseña para el usuario " + userId + ": " + ex.getMessage(), ex);
             return new ResponseDto("TASK-1002", ex.getMessage());
         }
     }
+    //Eliminar usuario existente por ID
     @DeleteMapping("/{userId}")
     public ResponseDto deleteUser(@PathVariable Long userId) {
         try {
@@ -61,7 +59,7 @@ public class UserApi {
             logger.info("Usuario eliminado con éxito: " + userId);
             return new ResponseDto("Usuario eliminado con éxito.");
         } catch (RuntimeException ex) {
-            logger.warn("Error al eliminar usuario: " + ex.getMessage());
+            logger.warn("Error al eliminar usuario " + userId + ": " + ex.getMessage(), ex);
             return new ResponseDto("TASK-1001", ex.getMessage());
         }
     }

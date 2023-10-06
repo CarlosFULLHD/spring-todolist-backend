@@ -6,7 +6,7 @@
 # Iniciar sesion
 POST http://localhost:8080/api/v1/login
 Accept: application/json
-Content:
+Content-Type: application/json
 
 {
     "user": "usuario1",
@@ -17,7 +17,7 @@ Content:
 ### Crear nuevo usuario
 POST http://localhost:8080/api/v1/users/
 Accept: application/json
-Content:
+Content-Type: application/json
 
 {
     "user" : "newuser",
@@ -26,6 +26,9 @@ Content:
 
 ### Editar contraseña mandando id de usuario(ejemplo con id=2)
 PUT http://localhost:8080/api/v1/users/2
+Accept: application/json
+Content-Type: application/json
+
 {
     "password_hash" : "newpass"
 }

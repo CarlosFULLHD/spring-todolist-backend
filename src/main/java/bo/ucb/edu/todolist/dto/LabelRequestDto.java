@@ -1,7 +1,11 @@
 package bo.ucb.edu.todolist.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class LabelRequestDto {
+    @NotBlank(message = "El nombre de la etiqueta no puede estar en blanco")
     private String labelName;
+    private String labelColor;
 
     public String getLabelName() {
         return labelName;
@@ -11,11 +15,20 @@ public class LabelRequestDto {
         this.labelName = labelName;
     }
 
+    public String getLabelColor() {
+        return labelColor;
+    }
+
+    public void setLabelColor(String labelColor) {
+        this.labelColor = labelColor;
+    }
+
     public LabelRequestDto() {
     }
 
-    public LabelRequestDto(String labelName) {
+    public LabelRequestDto(String labelName, String labelColor) {
         this.labelName = labelName;
+        this.labelColor = labelColor;
     }
 
     @Override

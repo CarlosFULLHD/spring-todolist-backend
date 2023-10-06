@@ -11,7 +11,6 @@ public class TaskRequestDto {
     private Timestamp dueDate;
     private Boolean status;
     private Timestamp completionTime;
-    private Long userId;
 
     public String getTaskName() {
         return taskName;
@@ -45,23 +44,15 @@ public class TaskRequestDto {
         this.completionTime = completionTime;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
 
     public TaskRequestDto() {
     }
 
-    public TaskRequestDto(String taskName, Timestamp dueDate, Boolean status, Timestamp completionTime, Long userId) {
+    public TaskRequestDto(String taskName, Timestamp dueDate, Boolean status, Timestamp completionTime) {
         this.taskName = taskName;
         this.dueDate = dueDate;
         this.status = status;
         this.completionTime = completionTime;
-        this.userId = userId;
     }
 
     @Override
@@ -71,7 +62,6 @@ public class TaskRequestDto {
                 ", dueDate=" + dueDate +
                 ", status=" + status +
                 ", completionTime=" + completionTime +
-                ", userId=" + userId +
                 '}';
     }
 }

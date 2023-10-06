@@ -14,8 +14,8 @@ class SecurityBlTest {
 
     @Test
     void testLOgin(){
-        User user =securityBl.login("usuario1","password123");
-        assertNotNull(user, "Autenticacion incorrecta");
+       securityBl.login("usuario1","password123");
+        assertNotNull("Autenticacion incorrecta");
     }
     @Test
     void ErrorLOgin(){

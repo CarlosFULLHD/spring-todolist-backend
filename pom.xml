@@ -56,9 +56,17 @@
             <artifactId>hibernate-core</artifactId>
             <version>6.2.9.Final</version>
         </dependency>
+		<!-- https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime -->
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+			<version>4.0.3</version>
+		</dependency>
 
 
-    </dependencies>
+
+
+	</dependencies>
 
 	<build>
 		<plugins>

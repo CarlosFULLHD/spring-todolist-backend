@@ -23,6 +23,7 @@ public class UserBl {
     public User addUser(String username, String passwordHash) {
         // Verificar si el usuario ya existe
         if (userDao.findByUsername(username) != null) {
+            logger.info("El usuario: " + username+ " ya existe.");
             throw new RuntimeException("El nombre de usuario ya está en uso.");
         }
         // Crear una nueva instancia de User y añadirlo
@@ -30,6 +31,7 @@ public class UserBl {
         newUser.setUsername(username);
         newUser.setPasswordHash(passwordHash);
         // Guardar el nuevo usuario en la base de datos
+        logger.info("Añadiendo usuario: " + username);
         return userDao.save(newUser);
     }
 
@@ -45,7 +47,7 @@ public class UserBl {
             // Buscar al usuario por su ID
             User user = userDao.findByuserId(userId);
             if (user == null) {
-                logger.warn("El usuario no existe: {}", username);
+                logger.info("El usuario no existe: {}", username);
                 throw new IllegalArgumentException("El usuario no existe");
             }
 

@@ -26,50 +26,56 @@ public class LabelApi {
     }
 
     // Crear un label
-    @PostMapping
-    public ResponseEntity<Label> addLabel(@PathVariable Long userId, @RequestBody LabelRequestDto labelRequestDto) {
+    @PostMapping("/")
+    public ResponseDto addLabel(@RequestBody LabelRequestDto labelRequestDto){
         try {
-            Label label = labelBl.addLabel(userId, labelRequestDto);
-            logger.info("Añadiendo label: " + labelRequestDto.getLabelName());
-            return new ResponseDto("TASK-1000", "Usuario agregado correctamente");
+            Label label = labelBl.addLabel(labelRequestDto);
+            logger.info("Añadiendo etiqueta: " + labelRequestDto.getLabelName() + "De color: "+labelRequestDto.getLabelColor());
+        }catch (RuntimeException ex){
+            //Devolver un error con codigo y el mensaje
+            logger.info("Error al crear el label: "+labelRequestDto.getLabelName(),labelRequestDto.getLabelColor());
+            return new ResponseDto("LABEL-1001", "Error al agregar etiqueta");
+        }
+        //Cuando todo salga bien
+        return new ResponseDto("LABEL-1000", "Etiqueta agregada correctamente");
+    }
+    // Método para obtener todas las etiquetas del usuario
+    @GetMapping("/")
+    public List<Label> getAllLabels() {
+        try {
+            List<Label> labels = labelBl.getAllLabels();
+            logger.info("Etiquetas obtenidas: " + labels.toString());
+            return labels;
         } catch (RuntimeException ex) {
-            logger.warn("Error al añadir label: " + ex.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            logger.info("Error al obtener etiquetas: " + ex.getMessage());
+            throw new RuntimeException("Error al obtener etiquetas");
         }
     }
-
-    // Editar un label
+    // Método para editar una etiqueta por su ID
     @PutMapping("/{labelId}")
-    public ResponseEntity<Label> editLabel(@PathVariable Long userId, @PathVariable Long labelId,  @RequestBody LabelRequestDto labelRequestDto) {
+    public ResponseDto editLabel(@PathVariable Long labelId, @RequestBody LabelRequestDto labelRequestDto) {
         try {
-            Label label = labelBl.editLabel(userId, labelId, labelRequestDto);
-            logger.info("Label actualizado con éxito para el label: " + labelId);
-            return new ResponseEntity<>(label, HttpStatus.OK);
+            Label updatedLabel = labelBl.editLabel(labelId, labelRequestDto);
+            logger.info("Etiqueta actualizada: " + updatedLabel.getLabelName() + " De color: " + updatedLabel.getLabelColor());
+            return new ResponseDto("LABEL-1000", "Etiqueta actualizado correctamente");
         } catch (RuntimeException ex) {
-            logger.warn("Error al actualizar Label: " + ex.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            logger.info("Error al actualizar la etiqueta con ID " + labelId + ": " + ex.getMessage());
+            return new ResponseDto("LABEL-1001", "Error al actualizar la etiqueta");
         }
     }
-
-    // Eliminar un label
+    // Método para eliminar una etiqueta por su ID
     @DeleteMapping("/{labelId}")
-    public ResponseEntity<Void> deleteLabel(@PathVariable Long userId, @PathVariable Long labelId) {
+    public ResponseDto deleteLabel(@PathVariable Long labelId) {
         try {
-            labelBl.deleteLabel(userId, labelId);
-            logger.info("Label eliminado con éxito: " + labelId);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            labelBl.deleteLabel(labelId);
+            logger.info("Etiqueta eliminada con ID: " + labelId);
+            return new ResponseDto("LABEL-1000", "Etiqueta eliminada correctamente");
         } catch (RuntimeException ex) {
-            logger.warn("Error al eliminar label: " + ex.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            logger.info("Error al eliminar la etiqueta con ID " + labelId + ": " + ex.getMessage());
+            return new ResponseDto("LABEL-1001", "Error al eliminar la etiqueta");
         }
     }
 
-    // Obtener todas las etiquetas
-    @GetMapping
-    public ResponseEntity<List<Label>> getAllLabels(@PathVariable Long userId) {
-        List<Label> labels = labelBl.getAllLabels(userId);
-        return new ResponseEntity<>(labels, HttpStatus.OK);
-    }
 }
 
 

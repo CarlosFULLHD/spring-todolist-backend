@@ -4,6 +4,7 @@ package bo.ucb.edu.todolist.bl;
 import bo.ucb.edu.todolist.config.AppConfig;
 import bo.ucb.edu.todolist.dao.LabelDao;
 import bo.ucb.edu.todolist.dto.LabelRequestDto;
+import bo.ucb.edu.todolist.dto.LabelResponseDto;
 import bo.ucb.edu.todolist.entity.Label;
 import bo.ucb.edu.todolist.entity.User;
 import org.slf4j.Logger;
@@ -11,8 +12,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.modelmapper.ModelMapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class LabelBl {
 
@@ -20,31 +24,49 @@ public class LabelBl {
     private final Logger logger = LoggerFactory.getLogger(LabelBl.class);
     @Autowired
     private AppConfig appConfig;
+    private final ModelMapper modelMapper; // Inyecta el ModelMapper
+
     @Autowired
-    public LabelBl(LabelDao labelDao) {
+    public LabelBl(LabelDao labelDao, ModelMapper modelMapper) {
         this.labelDao = labelDao;
+        this.modelMapper = modelMapper; // Asigna el ModelMapper
     }
     
     // Método para obtener todas las etiquetas de un usuario
-    public List<Label> getAllLabels() {
+//    public List<Label> getAllLabels() {
+//        Long userId = appConfig.getUserId();
+//        //OBTENER TODOS LOS LABELS de userId guardado en appConfig
+//        //Verificar que userId no sea 0, null o genere un error
+//        if(userId == null || userId == 0){
+//            logger.info("Usuario no valido: " + userId);
+//            throw new RuntimeException("El usuario no está logueado");
+//        }
+//        List<Label> labels = labelDao.findAllLabelsByUserId(userId);
+//
+//        logger.info("Etiquetas obtenidas obtenidos: "+labels.toString()+ "del usuario: "+userId);
+//        return labels;
+//    }
+    public List<LabelResponseDto> getAllLabels() {
         Long userId = appConfig.getUserId();
-        //OBTENER TODOS LOS LABELS de userId guardado en appConfig
-        //Verificar que userId no sea 0, null o genere un error
-        if(userId == null || userId == 0){
-            logger.info("Usuario no valido: " + userId);
+        if (userId == null || userId == 0) {
+            logger.info("Usuario no válido: " + userId);
             throw new RuntimeException("El usuario no está logueado");
         }
-        List<Label> labels = labelDao.findAllByUser_UserId(userId);
-        logger.info("Etiquetas obtenidas obtenidos: "+labels.toString());
-        return labels;
+        List<Label> labels = labelDao.findAllLabelsByUserId(userId);
+        logger.info("Etiquetas obtenidas obtenidas: " + labels.toString() + " del usuario: " + userId);
+        return labels.stream()
+                .map(label -> modelMapper.map(label, LabelResponseDto.class))
+                .collect(Collectors.toList());
     }
+
 
     // Método para añadir un nuevo label para un usuario
     @Transactional
     public Label addLabel(LabelRequestDto labelRequestDto) {
         Long userId = appConfig.getUserId();
         // Verificar si el label ya existe para el usuario
-        Label existingLabel = labelDao.findByLabelNameAndUser_UserId(labelRequestDto.getLabelName(), userId);
+        Label existingLabel = labelDao.findLabelByNameAndUserId(labelRequestDto.getLabelName(), userId);
+        logger.info("Etiqueta existente: "+existingLabel);
         if (existingLabel != null) {
             logger.info("El nombre de la etiqueta"+ existingLabel + "ya está en uso para este usuario.");
             throw new RuntimeException("El nombre de etiqueta ya está en uso para este usuario.");
@@ -62,11 +84,17 @@ public class LabelBl {
         return labelDao.save(label);
     }
 
+
+
+
+
+
+
     // Método para eliminar un label de un usuario
     @Transactional
     public void deleteLabel(Long labelId) {
         Long userId = appConfig.getUserId();
-        Label label = labelDao.findByIdAndUser_UserId(labelId, userId);
+        Label label = labelDao.findLabelByIdAndUserId(labelId, userId);
         if (label == null) {
             logger.info("La etiqueta no existe para este usuario.");
             throw new RuntimeException("La etiqueta no existe para este usuario.");
@@ -79,7 +107,7 @@ public class LabelBl {
     @Transactional
     public Label editLabel(Long labelId, LabelRequestDto labelRequestDto) {
         Long userId = appConfig.getUserId();
-        Label label = labelDao.findByIdAndUser_UserId(labelId, userId);
+        Label label = labelDao.findLabelByIdAndUserId(labelId, userId);
         if (label == null) {
             logger.info("La etiqueta no existe para este usuario.");
             throw new RuntimeException("La etiqueta no existe para este usuario.");

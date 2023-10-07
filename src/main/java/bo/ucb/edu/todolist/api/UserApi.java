@@ -26,7 +26,7 @@ public class UserApi {
 
     //Añadir nuevo usuario
     @PostMapping("/")
-    public ResponseDto login(@RequestBody LoginRequestDto loginRequestDto){
+    public ResponseDto addUser(@RequestBody LoginRequestDto loginRequestDto){
         try {
             User user = userBl.addUser(loginRequestDto.getUser(), loginRequestDto.getPassword_hash());
             logger.info("Añadiendo usuario: " + loginRequestDto.getUser());

@@ -1,8 +1,15 @@
 package bo.ucb.edu.todolist.api;
-
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+import java.util.stream.Collectors;
 import bo.ucb.edu.todolist.bl.LabelBl;
 import bo.ucb.edu.todolist.bl.SecurityBl;
 import bo.ucb.edu.todolist.dto.LabelRequestDto;
+import bo.ucb.edu.todolist.dto.LabelResponseDto;
 import bo.ucb.edu.todolist.dto.LoginRequestDto;
 import bo.ucb.edu.todolist.dto.ResponseDto;
 import bo.ucb.edu.todolist.entity.Label;
@@ -13,8 +20,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
 @RestController
-@RequestMapping("/api/v1/user/{userId}/labels")
+@RequestMapping("/api/v1/labels")
 public class LabelApi {
 
     private final Logger logger = LoggerFactory.getLogger(LabelApi.class);
@@ -24,9 +33,10 @@ public class LabelApi {
     public LabelApi(LabelBl labelBl) {
         this.labelBl = labelBl;
     }
-
+    @Autowired
+    private ModelMapper modelMapper;
     // Crear un label
-    @PostMapping("/")
+    @PostMapping("/")//{userId} como se guarda en una variable el userId no se requiere en el request body
     public ResponseDto addLabel(@RequestBody LabelRequestDto labelRequestDto){
         try {
             Label label = labelBl.addLabel(labelRequestDto);
@@ -39,18 +49,35 @@ public class LabelApi {
         //Cuando todo salga bien
         return new ResponseDto("LABEL-1000", "Etiqueta agregada correctamente");
     }
-    // Método para obtener todas las etiquetas del usuario
-    @GetMapping("/")
-    public List<Label> getAllLabels() {
-        try {
-            List<Label> labels = labelBl.getAllLabels();
-            logger.info("Etiquetas obtenidas: " + labels.toString());
-            return labels;
-        } catch (RuntimeException ex) {
-            logger.info("Error al obtener etiquetas: " + ex.getMessage());
-            throw new RuntimeException("Error al obtener etiquetas");
-        }
+
+//    // Método para obtener todas las etiquetas del usuario
+//    @GetMapping("/")
+//    public List<Label> getAllLabels() {
+//        try {
+//            List<Label> labels = labelBl.getAllLabels();
+//            logger.info("Etiquetas obtenidas: " + labels.toString());
+//            return labels;
+//        } catch (RuntimeException ex) {
+//            logger.info("Error al obtener etiquetas: " + ex.getMessage());
+//            throw new RuntimeException("Error al obtener etiquetas");
+//        }
+//    }
+@GetMapping("/")
+public List<LabelResponseDto> getAllLabels() {
+    try {
+        List<LabelResponseDto> labels = labelBl.getAllLabels();
+        List<LabelResponseDto> labelDtos = labels.stream()
+                .map(label -> modelMapper.map(label, LabelResponseDto.class))
+                .collect(Collectors.toList());
+        logger.info("Etiquetas obtenidas: " + labelDtos.toString());
+        return labelDtos;
+    } catch (RuntimeException ex) {
+        logger.info("Error al obtener etiquetas: " + ex.getMessage());
+        throw new RuntimeException("Error al obtener etiquetas");
     }
+}
+
+
     // Método para editar una etiqueta por su ID
     @PutMapping("/{labelId}")
     public ResponseDto editLabel(@PathVariable Long labelId, @RequestBody LabelRequestDto labelRequestDto) {

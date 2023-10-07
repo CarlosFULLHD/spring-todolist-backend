@@ -30,11 +30,13 @@ public class User {
     @JsonIgnore // Ignorar la relación en esta dirección
     private Set<Task> tasks = new HashSet<>();
 
+    //Relacion one to many con label
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore // Ignorar la relación en esta dirección
+    private Set<Label> labels = new HashSet<>();
+
     public User(Long userId) {
     }
-
-
-    // Getters and setters
 
     public Long getUserId() {
         return userId;
@@ -68,14 +70,23 @@ public class User {
         this.tasks = tasks;
     }
 
+    public Set<Label> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(Set<Label> labels) {
+        this.labels = labels;
+    }
+
     public User() {
     }
 
-    public User(Long userId, String username, String passwordHash, Set<Task> tasks) {
+    public User(Long userId, String username, String passwordHash, Set<Task> tasks, Set<Label> labels) {
         this.userId = userId;
         this.username = username;
         this.passwordHash = passwordHash;
         this.tasks = tasks;
+        this.labels = labels;
     }
 
     @Override
@@ -84,6 +95,9 @@ public class User {
                 "userId=" + userId +
                 ", username='" + username + '\'' +
                 ", passwordHash='" + passwordHash + '\'' +
+                ", taskCount=" + tasks.size() + // Puedes mostrar la cantidad de tareas en lugar de las tareas mismas
+                ", labelCount=" + labels.size() + // Puedes mostrar la cantidad de etiquetas en lugar de las etiquetas mismas
                 '}';
     }
+
 }

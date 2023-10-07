@@ -1,5 +1,7 @@
 package bo.ucb.edu.todolist.config;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 //Para guardar el id del usuario, para que no se pierda al momento de hacer el login
@@ -14,5 +16,10 @@ public class AppConfig {
 
     public static void setUserId(Long id) {
         userId = id;
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }

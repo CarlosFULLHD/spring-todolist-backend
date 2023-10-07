@@ -3,7 +3,6 @@ package bo.ucb.edu.todolist.dto;
 import jakarta.validation.constraints.NotBlank;
 
 public class LabelRequestDto {
-    @NotBlank(message = "El nombre de la etiqueta no puede estar en blanco")
     private String labelName;
     private String labelColor;
 
@@ -14,6 +13,7 @@ public class LabelRequestDto {
     public void setLabelName(String labelName) {
         this.labelName = labelName;
     }
+
 
     public String getLabelColor() {
         return labelColor;
@@ -35,6 +35,7 @@ public class LabelRequestDto {
     public String toString() {
         return "LabelRequestDto{" +
                 "labelName='" + labelName + '\'' +
+                ", labelColor='" + labelColor + '\'' +
                 '}';
     }
 }

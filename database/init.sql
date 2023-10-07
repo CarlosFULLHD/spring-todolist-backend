@@ -24,9 +24,3 @@ CREATE TABLE tasks (
                        user_id INT REFERENCES users(user_id) ON DELETE CASCADE
 );
 
-CREATE TABLE task_labels (
-                             task_label_id SERIAL PRIMARY KEY,
-                             task_id INT REFERENCES tasks(task_id) ON DELETE CASCADE,
-                             label_id INT REFERENCES labels(label_id) ON DELETE CASCADE
-);
-

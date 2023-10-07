@@ -20,8 +20,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "user" : "newuser",
-    "password_hash" : "newpassword"
+    "user" : "usuario1",
+    "password_hash" : "password123"
 }
 
 ### Editar contraseña mandando id de usuario(ejemplo con id=2)

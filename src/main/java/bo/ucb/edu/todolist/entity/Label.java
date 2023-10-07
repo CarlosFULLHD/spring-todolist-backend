@@ -19,9 +19,19 @@ public class Label {
     @Column(name = "label_color")
     private String labelColor;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Label() {
+    }
+
+    public Label(Long labelId, String labelName, String labelColor, User user) {
+        this.labelId = labelId;
+        this.labelName = labelName;
+        this.labelColor = labelColor;
+        this.user = user;
+    }
 
     public Long getLabelId() {
         return labelId;
@@ -52,16 +62,6 @@ public class Label {
     }
 
     public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Label() {
-    }
-
-    public Label(Long labelId, String labelName, String labelColor, User user) {
-        this.labelId = labelId;
-        this.labelName = labelName;
-        this.labelColor = labelColor;
         this.user = user;
     }
 

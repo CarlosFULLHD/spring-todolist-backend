@@ -2,16 +2,18 @@
 # Obtener todos los labels
 GET http://localhost:8080/api/v1/labels/
 
-# Crear nuevo label
+### Crear nuevo label
 POST http://localhost:8080/api/v1/labels/
 Accept: application/json
-Content
+Content-Type: application/json
 
 {
-    "labelName" : "NUEVO LABEL"
+  "labelName": "NUEVO LABEL",
+  "labelColor": "#FF0000"
 }
 
-# Editar label mandando id de label(ejemplo con id=1)
+
+### Editar label mandando id de label(ejemplo con id=1)
 PUT http://localhost:8080/api/v1/labels/1
 Accept: application/json
 Content
@@ -20,7 +22,7 @@ Content
     "labelName" : "LabelEditado"
 }
 
-# Eliminar label por id(ejemplo=1)
+### Eliminar label por id(ejemplo=1)
 DELETE http://localhost:8080/api/v1/labels/1
 
 

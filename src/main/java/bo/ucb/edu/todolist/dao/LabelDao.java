@@ -15,10 +15,6 @@ import java.util.List;
 @Repository
 public interface LabelDao extends JpaRepository<Label, Long> {
 
-    //LabelRequestDto<Label> findAllByUser_UserId(Long userId);
-    //Label findByLabelNameAndUser_UserId(String labelName, Long userId);
-    //Label findByIdAndUser_UserId(Long labelId, Long userId);
-
     // Consulta para obtener todos los labels de un usuario por su user_id
     @Query("SELECT l FROM Label l WHERE l.user.userId = :userId")
     List<Label> findAllLabelsByUserId(@Param("userId") Long userId);

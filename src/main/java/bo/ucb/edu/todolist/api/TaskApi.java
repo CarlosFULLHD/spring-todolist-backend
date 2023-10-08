@@ -1,81 +1,87 @@
-//package bo.ucb.edu.todolist.api;
-//
-//import bo.ucb.edu.todolist.bl.LabelBl;
-//import bo.ucb.edu.todolist.bl.TaskBl;
-//import bo.ucb.edu.todolist.dto.ResponseDto;
-//import bo.ucb.edu.todolist.entity.Task;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.web.bind.annotation.*;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//import java.util.List;
-//
-//@RestController
-//@RequestMapping("api/v1/tasks")
-//public class TaskApi {
-//    private final TaskBl taskBl;
-//    private final Logger logger = LoggerFactory.getLogger(LabelBl.class);
-//
-//    @Autowired
-//    public TaskApi(TaskBl taskBl) {
-//        this.taskBl = taskBl;
-//    }
-//
-//    // Obtener todas las tareas
-//    @GetMapping("/")
-//    public List<Task> getAllTasks() {
-//        return taskBl.getAllTasks();
-//    }
-//
-//    // Crear una tarea
-//    @PostMapping("/")
-//    public ResponseDto addTask(@RequestBody Task task) {
-//        try {
-//            Task addedTask = taskBl.addTask(task); // No se asignan etiquetas en este punto
-//            return new ResponseDto("Tarea creada con éxito.", addedTask);
-//        } catch (Exception ex) {
-//            return new ResponseDto("ERROR", ex.getMessage());
-//        }
-//    }
-//
-//    // Editar una tarea
-//    @PutMapping("/{taskId}")
-//    public ResponseDto editTask(@PathVariable Long taskId, @RequestBody Task task) {
-//        try {
-//            task.setTaskId(taskId);
-//            Task updatedTask = taskBl.editTask(task); // No se editan etiquetas en este punto
-//            return new ResponseDto("Tarea editada con éxito.", updatedTask);
-//        } catch (Exception ex) {
-//            return new ResponseDto("ERROR", ex.getMessage());
-//        }
-//    }
-//
-//    // Eliminar una tarea
-//    @DeleteMapping("/{taskId}")
-//    public ResponseDto deleteTask(@PathVariable Long taskId) {
-//        try {
-//            taskBl.deleteTask(taskId);
-//            return new ResponseDto("Tarea eliminada con éxito.");
-//        } catch (Exception ex) {
-//            return new ResponseDto("ERROR", ex.getMessage());
-//        }
-//    }
-//    // Cambiar el estado de una tarea a true
-//    @PutMapping("/complete/{taskId}")
-//    public ResponseDto completeTask(@PathVariable Long taskId) {
-//        try {
-//            Task task = taskBl.getTaskById(taskId); // Obtener la tarea por su ID
-//            if (task == null) {
-//                return new ResponseDto("ERROR", "La tarea no existe.");
-//            }
-//
-//            task.setStatus(true); // Cambiar el estado a true
-//            Task updatedTask = taskBl.editTask(task); // Guardar la tarea actualizada
-//
-//            return new ResponseDto("Tarea completada con éxito.", updatedTask);
-//        } catch (Exception ex) {
-//            return new ResponseDto("ERROR", ex.getMessage());
-//        }
-//    }
-//
-//}
+package bo.ucb.edu.todolist.api;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+import bo.ucb.edu.todolist.bl.TaskBl;
+import bo.ucb.edu.todolist.dto.TaskRequestDto;
+import bo.ucb.edu.todolist.dto.TaskResponseDto;
+import bo.ucb.edu.todolist.dto.ResponseDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@RestController
+@RequestMapping("/api/v1/tasks")
+public class TaskApi {
+
+    private final Logger logger = LoggerFactory.getLogger(TaskApi.class);
+    private final TaskBl taskBl;
+
+    @Autowired
+    public TaskApi(TaskBl taskBl) {
+        this.taskBl = taskBl;
+    }
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @GetMapping("/")
+    public List<TaskResponseDto> getAllTasks() {
+        try {
+            List<TaskResponseDto> tasks = taskBl.getAllTasks();
+            List<TaskResponseDto> taskDtos = tasks.stream()
+                    .map(task -> modelMapper.map(task, TaskResponseDto.class))
+                    .collect(Collectors.toList());
+            logger.info("Tareas obtenidas: " + taskDtos.toString());
+            return taskDtos;
+        } catch (RuntimeException ex) {
+            logger.info("Error al obtener tareas: " + ex.getMessage());
+            throw new RuntimeException("Error al obtener tareas");
+        }
+    }
+
+    @PostMapping("/")
+    public ResponseDto addTask(@RequestBody TaskRequestDto taskRequestDto) {
+        try {
+            if (taskRequestDto.getCompletionTime() == null) {
+                // Establecer el valor predeterminado como "ahora + 7 días"
+                LocalDateTime defaultCompletionTime = LocalDateTime.now().plusDays(7);
+                taskRequestDto.setCompletionTime(defaultCompletionTime);
+            }
+            TaskResponseDto task = taskBl.addTask(taskRequestDto);
+            logger.info("Añadiendo tarea: " + taskRequestDto.getTaskName());
+            return new ResponseDto("TASK-1000", "Tarea agregada correctamente");
+        } catch (RuntimeException ex) {
+            // Devolver un error con código y el mensaje
+            logger.info("Error al crear la tarea: " + ex.getMessage());
+            return new ResponseDto("TASK-1001", ex.getMessage());
+        }
+    }
+
+    @PutMapping("/{taskId}")
+    public ResponseDto editTask(@PathVariable Long taskId, @RequestBody TaskRequestDto taskRequestDto) {
+        try {
+            TaskResponseDto updatedTask = taskBl.editTask(taskId, taskRequestDto);
+            logger.info("Tarea actualizada: " + updatedTask.getTaskName());
+            return new ResponseDto("TASK-1000", "Tarea actualizada correctamente");
+        } catch (RuntimeException ex) {
+            logger.info("Error al actualizar la tarea con ID " + taskId + ": " + ex.getMessage());
+            return new ResponseDto("TASK-1001", ex.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{taskId}")
+    public ResponseDto deleteTask(@PathVariable Long taskId) {
+        try {
+            taskBl.deleteTask(taskId);
+            logger.info("Tarea eliminada con ID: " + taskId);
+            return new ResponseDto("TASK-1000", "Tarea eliminada correctamente");
+        } catch (RuntimeException ex) {
+            logger.info("Error al eliminar la tarea con ID " + taskId + ": " + ex.getMessage());
+            return new ResponseDto("TASK-1001", ex.getMessage());
+        }
+    }
+}

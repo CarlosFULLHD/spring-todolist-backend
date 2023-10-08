@@ -16,13 +16,15 @@ Content-Type: application/json
 ### Editar label mandando id de label(ejemplo con id=1)
 PUT http://localhost:8080/api/v1/labels/1
 Accept: application/json
-Content
+Content-Type: application/json
 
 {
-    "labelName" : "LabelEditado"
+    "labelName" : "LabelEditado",
+  "labelColor": "#000000"
 }
 
 ### Eliminar label por id(ejemplo=1)
-DELETE http://localhost:8080/api/v1/labels/1
+DELETE http://localhost:8080/api/v1/labels/15
+
 
 

@@ -30,11 +30,11 @@ public class Task {
     private LocalDateTime completionTime;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id",   nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "label_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "label_id", nullable = true)
     private Label label;
 
     public Long getTaskId() {

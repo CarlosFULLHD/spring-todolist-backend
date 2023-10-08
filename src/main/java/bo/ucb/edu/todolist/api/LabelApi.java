@@ -39,29 +39,17 @@ public class LabelApi {
     @PostMapping("/")//{userId} como se guarda en una variable el userId no se requiere en el request body
     public ResponseDto addLabel(@RequestBody LabelRequestDto labelRequestDto){
         try {
-            Label label = labelBl.addLabel(labelRequestDto);
-            logger.info("Añadiendo etiqueta: " + labelRequestDto.getLabelName() + "De color: "+labelRequestDto.getLabelColor());
+            LabelResponseDto label = labelBl.addLabel(labelRequestDto);
+            logger.info("Añadiendo etiqueta: " + labelRequestDto.getLabelName() + " de color: "+labelRequestDto.getLabelColor());
         }catch (RuntimeException ex){
             //Devolver un error con codigo y el mensaje
             logger.info("Error al crear el label: "+labelRequestDto.getLabelName(),labelRequestDto.getLabelColor());
-            return new ResponseDto("LABEL-1001", "Error al agregar etiqueta");
+            return new ResponseDto("LABEL-1001", ex.getMessage());
         }
         //Cuando todo salga bien
         return new ResponseDto("LABEL-1000", "Etiqueta agregada correctamente");
     }
 
-//    // Método para obtener todas las etiquetas del usuario
-//    @GetMapping("/")
-//    public List<Label> getAllLabels() {
-//        try {
-//            List<Label> labels = labelBl.getAllLabels();
-//            logger.info("Etiquetas obtenidas: " + labels.toString());
-//            return labels;
-//        } catch (RuntimeException ex) {
-//            logger.info("Error al obtener etiquetas: " + ex.getMessage());
-//            throw new RuntimeException("Error al obtener etiquetas");
-//        }
-//    }
 @GetMapping("/")
 public List<LabelResponseDto> getAllLabels() {
     try {
@@ -82,9 +70,9 @@ public List<LabelResponseDto> getAllLabels() {
     @PutMapping("/{labelId}")
     public ResponseDto editLabel(@PathVariable Long labelId, @RequestBody LabelRequestDto labelRequestDto) {
         try {
-            Label updatedLabel = labelBl.editLabel(labelId, labelRequestDto);
-            logger.info("Etiqueta actualizada: " + updatedLabel.getLabelName() + " De color: " + updatedLabel.getLabelColor());
-            return new ResponseDto("LABEL-1000", "Etiqueta actualizado correctamente");
+            LabelResponseDto updatedLabel = labelBl.editLabel(labelId, labelRequestDto);
+            logger.info("Etiqueta actualizada: " + updatedLabel.getLabelName() + " de color: " + updatedLabel.getLabelColor());
+            return new ResponseDto("LABEL-1000", "Etiqueta actualizada correctamente");
         } catch (RuntimeException ex) {
             logger.info("Error al actualizar la etiqueta con ID " + labelId + ": " + ex.getMessage());
             return new ResponseDto("LABEL-1001", "Error al actualizar la etiqueta");

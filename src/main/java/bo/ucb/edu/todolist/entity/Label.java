@@ -3,6 +3,8 @@ package bo.ucb.edu.todolist.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+import java.util.Collection;
+
 @Entity
 @Table(name = "labels")
 public class Label {
@@ -74,6 +76,8 @@ public class Label {
                 ", user=" + user +
                 '}';
     }
+
+
 }
 
 

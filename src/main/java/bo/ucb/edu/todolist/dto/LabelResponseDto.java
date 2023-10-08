@@ -1,5 +1,9 @@
 package bo.ucb.edu.todolist.dto;
 
+import bo.ucb.edu.todolist.entity.Label;
+
+import java.util.List;
+
 public class LabelResponseDto {
     private Long labelId;
     private String labelName;
@@ -12,6 +16,12 @@ public class LabelResponseDto {
     }
 
     public LabelResponseDto() {
+    }
+
+    public LabelResponseDto(Label label) {
+        this.labelId = label.getLabelId();
+        this.labelName = label.getLabelName();
+        this.labelColor = label.getLabelColor();
     }
 
     public Long getLabelId() {
@@ -36,5 +46,8 @@ public class LabelResponseDto {
 
     public void setLabelColor(String labelColor) {
         this.labelColor = labelColor;
+    }
+
+    public void addAll(List<LabelResponseDto> labelDtos) {
     }
 }

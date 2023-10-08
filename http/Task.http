@@ -2,42 +2,37 @@
 # Obtener todos los tasks
 GET http://localhost:8080/api/v1/tasks/
 
-# Crear nueva task
+### Crear nueva task
 POST http://localhost:8080/api/v1/tasks/
 Accept: application/json
 Content-Type: application/json
 
 {
-  "taskName": "Tarea NUEVA",
-  "dueDate": "2023-09-30T00:00:00Z",
+  "taskName": "Tarea de ejemplo",
+  "dueDate": "2023-10-31T18:00:00",
   "status": false,
-  "completionTime": null,
-  "user": {
-    "userId": 1,  // El ID del usuario al que deseas asignar la tarea
-    "username": "usuario1",  // Nombre de usuario del usuario
-    "passwordHash": "password123"  // Contraseña del usuario
-  }
-  }
+  "completionTime": "2023-10-31T18:00:00",
+  "labelId": 1
+}
 
 
-# Editar label tarea id de task(ejemplo con id=1)
-PUT http://localhost:8080/api/v1/tasks/1
+
+### Editar label tarea id de task(ejemplo con id=1)
+PUT http://localhost:8080/api/v1/tasks/16
 Accept: application/json
 Content-Type: application/json
 
 {
-  "taskName": "Tarea EDITADA",
-  "dueDate": "2023-09-30T00:00:00Z",
-  "status": false,
-  "completionTime": null,
-  "user": {
-    "userId": 1,  // El ID del usuario al que deseas asignar la tarea
-    "username": "usuario1",  // Nombre de usuario del usuario
-    "passwordHash": "password123"  // Contraseña del usuario
-  }
+  "taskName": "Tarea COMPLETADA Y EDITADA",
+  "dueDate": "2023-10-15T00:00:00Z",
+  "status": true,
+  "completionTime": "2023-10-15T12:00:00Z",
+    "labelId": 3
 }
 
-# Eliminar tarea por id(ejemplo=1)
-DELETE http://localhost:8080/api/v1/tasks/1
+
+### Eliminar tarea por id(ejemplo=1)
+DELETE http://localhost:8080/api/v1/tasks/15
+
 
 

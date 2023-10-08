@@ -1,8 +1,7 @@
 package bo.ucb.edu.todolist.dto;
 
-import bo.ucb.edu.todolist.entity.User;
-
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 //PD: si es necesario se hara 2 DTO, uno para cuando se crea una task y otro para cuando se completa
 
 
@@ -10,7 +9,8 @@ public class TaskRequestDto {
     private String taskName;
     private Timestamp dueDate;
     private Boolean status;
-    private Timestamp completionTime;
+    private LocalDateTime completionTime;
+    private Long labelId;
 
     public String getTaskName() {
         return taskName;
@@ -20,8 +20,8 @@ public class TaskRequestDto {
         this.taskName = taskName;
     }
 
-    public Timestamp getDueDate() {
-        return dueDate;
+    public LocalDateTime getDueDate() {
+        return dueDate.toLocalDateTime();
     }
 
     public void setDueDate(Timestamp dueDate) {
@@ -36,23 +36,32 @@ public class TaskRequestDto {
         this.status = status;
     }
 
-    public Timestamp getCompletionTime() {
+    public LocalDateTime getCompletionTime() {
         return completionTime;
     }
 
-    public void setCompletionTime(Timestamp completionTime) {
+    public void setCompletionTime(LocalDateTime completionTime) {
         this.completionTime = completionTime;
     }
 
-
-    public TaskRequestDto() {
+    public Long getLabelId() {
+        return labelId;
     }
 
-    public TaskRequestDto(String taskName, Timestamp dueDate, Boolean status, Timestamp completionTime) {
+    public void setLabelId(Long labelId) {
+        this.labelId = labelId;
+    }
+
+    public TaskRequestDto() {
+
+    }
+
+    public TaskRequestDto(String taskName, Timestamp dueDate, Boolean status, LocalDateTime completionTime,Long labelId) {
         this.taskName = taskName;
         this.dueDate = dueDate;
         this.status = status;
         this.completionTime = completionTime;
+        this.labelId = labelId;
     }
 
     @Override

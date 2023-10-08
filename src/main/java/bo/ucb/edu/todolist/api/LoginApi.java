@@ -25,13 +25,13 @@ public class LoginApi {
 
     @PostMapping("/login")
     public ResponseDto login(@RequestBody LoginRequestDto loginRequestDto) {
-
+        logger.info("Autenticando el usuario: " +
+                loginRequestDto.getUser(), "con contraseña: "
+                +loginRequestDto.getPassword_hash());
         try {
             securityBl.login(loginRequestDto.getUser(),
                     loginRequestDto.getPassword_hash());
-            logger.info("Autenticando el usuario: " +
-                    loginRequestDto.getUser(), "con contraseña: "
-                    +loginRequestDto.getPassword_hash());
+
             // Devolver un mensaje de éxito
             return new ResponseDto("TASK-200", "Autenticado correctamente");
         } catch (RuntimeException ex) {

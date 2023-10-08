@@ -24,7 +24,7 @@ Content-Type: application/json
 }
 
 ### Eliminar label por id(ejemplo=1)
-DELETE http://localhost:8080/api/v1/labels/15
+DELETE http://localhost:8080/api/v1/labels/10
 
 
 

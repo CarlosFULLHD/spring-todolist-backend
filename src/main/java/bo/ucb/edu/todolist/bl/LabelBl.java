@@ -103,12 +103,14 @@ public LabelResponseDto addLabel(LabelRequestDto labelRequestDto) {
     public void deleteLabel(Long labelId) {
         Long userId = appConfig.getUserId();
         Label label = labelDao.findLabelByIdAndUserId(labelId, userId);
+        logger.info("Etiqueta eliminada con ID: " + labelId, "del usuario: "+userId);
         if (label == null) {
             logger.info("La etiqueta no existe para este usuario.");
             throw new RuntimeException("La etiqueta no existe para este usuario.");
         }
-        logger.info("Label eliminado: "+label.toString());
+        logger.info("Label antes de ser eliminado: "+label.toString());
         labelDao.deleteById(labelId);
+        logger.info("Label eliminado: "+label.toString());
     }
 
 

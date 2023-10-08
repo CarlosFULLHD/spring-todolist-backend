@@ -70,6 +70,28 @@ public List<TaskResponseDto> getAllTasks() {
     logger.info("Tareas obtenidas: " + taskDtos.toString());
     return taskDtos;
 }
+    public TaskResponseDto getTaskByIdAndUserId(Long taskId) {
+        Long userId = verifyUserLogged();
+        // Obtener la tarea por taskId y userId
+        Task task = taskDao.findById(taskId).orElse(null);
+        // Verificar que el usuario esté logueado
+        if (userId == null || userId == 0) {
+            logger.info("Usuario no válido: " + userId);
+            throw new RuntimeException("El usuario no está logueado");
+        }
+
+
+
+        // Verificar si la tarea existe y pertenece al usuario
+        if (task == null || !task.getUser().getUserId().equals(userId)) {
+            logger.info("La tarea no existe para este usuario.");
+            return null; // Devolver null si la tarea no existe o no pertenece al usuario
+        }
+
+        // Mapear la entidad a un TaskResponseDto y devolverlo
+        return modelMapper.map(task, TaskResponseDto.class);
+    }
+
     @Transactional
     public TaskResponseDto addTask(TaskRequestDto taskRequestDto) {
         //usar verificacion de usuario logueado

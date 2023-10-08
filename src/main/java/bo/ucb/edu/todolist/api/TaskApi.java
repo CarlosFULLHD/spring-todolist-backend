@@ -42,6 +42,25 @@ public class TaskApi {
             throw new RuntimeException("Error al obtener tareas");
         }
     }
+    @GetMapping("/{taskId}")
+    public TaskResponseDto getTaskById(@PathVariable Long taskId) {
+        try {
+            // Obtener la tarea por taskId
+            TaskResponseDto task = taskBl.getTaskByIdAndUserId(taskId);
+
+            // Verificar si la tarea existe y pertenece al usuario
+            if (task == null) {
+                logger.info("La tarea no existe o no pertenece al usuario.");
+                throw new RuntimeException("La tarea no existe o no pertenece al usuario.");
+            }
+
+            logger.info("Obteniendo tarea por ID: " + taskId);
+            return task;
+        } catch (RuntimeException ex) {
+            logger.info("Error al obtener la tarea con ID " + taskId + ": " + ex.getMessage());
+            throw new RuntimeException("Error al obtener la tarea con ID " + taskId);
+        }
+    }
 
     @PostMapping("/")
     public ResponseDto addTask(@RequestBody TaskRequestDto taskRequestDto) {

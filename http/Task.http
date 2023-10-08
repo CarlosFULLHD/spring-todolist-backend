@@ -1,6 +1,9 @@
-# Tasks:
-# Obtener todos los tasks
+### Tasks:
+### Obtener todos los tasks
 GET http://localhost:8080/api/v1/tasks/
+
+### Obtener task por id
+GET http://localhost:8080/api/v1/tasks/1
 
 ### Crear nueva task
 POST http://localhost:8080/api/v1/tasks/

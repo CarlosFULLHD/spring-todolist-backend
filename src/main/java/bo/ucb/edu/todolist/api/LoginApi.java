@@ -41,6 +41,10 @@ public class LoginApi {
 
         }
     }
+    @PostMapping("/api/v1/logout")
+    public void logout() {
+
+    }
     }
 
 

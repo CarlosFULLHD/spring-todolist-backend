@@ -41,4 +41,7 @@ public class SecurityBl {
 
 
     }
+    public void login() {
+        appConfig.setUserId(null);
+    }
 }
